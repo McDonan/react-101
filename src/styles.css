@@ -1,0 +1,313 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,400;0,700;0,800;1,400;1,700;1,800&display=swap");
+
+* {
+  font-family: "Prompt", sans-serif;
+}
+
+#avatar {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+#avatar-div {
+  height: 50%;
+  background-color: #d9d9d9;
+  margin-left: 15%;
+  text-align: center;
+}
+
+#avatar + label {
+  cursor: pointer;
+  font-size: 100px;
+}
+
+.banner {
+  width: 100%;
+}
+
+.breadcrumb {
+  font-size: 24px;
+  padding: 15px 0 22px 0;
+}
+
+.breadcrumb ol {
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumb li {
+  display: inline;
+  padding: 10px 0;
+}
+
+.breadcrumb li a {
+  color: black;
+  text-decoration: none;
+}
+
+.breadcrumb li + li:before {
+  padding: 8px;
+  color: black;
+  content: ">";
+}
+
+.buttons {
+  display: flex;
+  padding-top: 78px;
+}
+
+#cancel {
+  margin: 0 55px 0 auto;
+  color: #006c33;
+  background-color: white;
+  border-color: #006c33;
+  border-radius: 4px;
+  border-width: 1px;
+  font-size: 15px;
+  width: 330px;
+  height: 42px;
+}
+
+#categories {
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  border-width: 0;
+  font-size: 16px;
+  color: #333333;
+  padding: 11.5px 24px 11.5px 8px;
+}
+
+.clear {
+  height: 116px;
+}
+
+#column1 {
+  width: 10%;
+  text-align: center;
+}
+
+#column2 {
+  width: 55%;
+}
+
+#column3 {
+  width: 10%;
+}
+
+#column4 {
+  width: 15%;
+}
+
+#column5 {
+  width: 15%;
+}
+
+#column5 a {
+  padding-right: 20px;
+}
+
+.container {
+  position: relative;
+  color: white;
+  font-size: 16px;
+  padding-right: 7%;
+}
+
+.bottom-left {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+  width: 83%;
+  padding: 5%;
+  bottom: 6.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header {
+  font-size: 24px;
+  height: 80px;
+}
+
+.footer {
+  background-color: black;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer p {
+  color: white;
+  font-size: 16px;
+  margin: 0;
+  padding: 29px 0 29px 76px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 320px auto 330px auto 147px;
+}
+
+.grid-create {
+  display: grid;
+  grid-template-columns: 70% 30%;
+}
+
+.body {
+  padding: 16px 78px 0 76px;
+}
+
+#image {
+  margin-left: 15%;
+  width: 85%;
+}
+
+.information {
+  display: grid;
+  grid-template-columns: 100%;
+}
+
+input {
+  padding: 11.5px 0 11.5px 8px;
+}
+
+label {
+  padding: 12px 0 8px 0;
+  font-size: 14px;
+  color: #006c33;
+}
+
+.language {
+  float: right;
+  display: inline-flex;
+}
+
+.link {
+  color: #006c33;
+  text-decoration: underline;
+}
+
+.logo {
+  float: left;
+  width: 178px;
+}
+
+nav {
+  display: flex;
+}
+
+#news1 {
+  width: 100%;
+}
+
+.news {
+  margin: 38px 0px 20px 0px;
+}
+
+#new-news {
+  color: #006c33;
+  font-size: 15px;
+  padding: 18px 0 11px 0;
+}
+
+#new-news a {
+  color: #006c33;
+  text-decoration: none;
+}
+
+#th-title,
+#en-title,
+#category,
+#publish {
+  background-color: #f1f1f1;
+  font-size: 16px;
+  border: 1px solid #006c33;
+  border-radius: 4px;
+}
+
+#th-title,
+#en-title {
+  color: #111111;
+  height: 152px;
+}
+
+#category,
+#publish {
+  color: #333333;
+  padding: 11.5px 0 11.5px 8px;
+  border: none;
+}
+
+#search,
+#submit {
+  color: white;
+  float: right;
+  font-size: 15px;
+
+  background: #006c33;
+
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px rgba(0, 0, 0, 0.14), 0px 1px 5px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  border-width: 0;
+}
+
+#search {
+  width: 147px;
+  height: 42px;
+}
+
+#submit {
+  width: 330px;
+  height: 42px;
+}
+
+.subject {
+  color: #006c33;
+  font-size: 14px;
+  width: 160px;
+}
+
+table {
+  text-align: left;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #b9b9b9;
+  font-size: 12px;
+  height: 15px;
+  padding: 10px 8px;
+}
+
+th {
+  font-weight: bold;
+  background-color: #f1f1f1;
+}
+
+td {
+  background-color: white;
+}
+
+textarea {
+  padding: 16px 0 0 16px;
+}
+
+#title {
+  background-color: #f1f1f1;
+  border: 1px solid #006c33;
+  border-radius: 4px;
+}
+
+.view-all {
+  color: #006c33;
+  float: right;
+  font-size: 16px;
+  text-decoration: underline;
+}
