@@ -4,6 +4,7 @@ import { listNews } from "./news";
 import banner from "./assets/images/banner.png";
 import logo from "./assets/images/icon.png";
 import news from "./assets/images/workplace.png";
+import "./App.css";
 import "./styles.css";
 
 export default function App() {
