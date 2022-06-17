@@ -1,18 +1,21 @@
-import { Outlet, Link } from "react-router-dom";
-import { getCategory, listCategories } from "../category";
-import { listNews } from "../news";
-import logo from "../assets/images/icon.png";
-import "../styles.css";
-import { useState } from "react";
-import { getDateTime } from "../utils/date";
+import { useTranslation } from 'react-i18next'
+import { Outlet, Link } from 'react-router-dom'
+import { getCategory, listCategories } from '../category'
+import { languages } from '../i18n'
+import { listNews } from '../news'
+import { useState } from 'react'
+import { getDateTime } from '../utils/date'
+import logo from '../assets/images/icon.png'
+import '../styles.css'
 
 export default function ListNews() {
-  let categories = listCategories();
-  let allNews = listNews();
-  const [news, setNews] = useState(allNews);
-  const [searchText, setSearchText] = useState("");
-  const [category, setCategory] = useState(0);
-  const [isTH, setIsTH] = useState(true);
+  let categories = listCategories()
+  let allNews = listNews()
+  let lngs = languages()
+  const [news, setNews] = useState(allNews)
+  const [searchText, setSearchText] = useState('')
+  const [category, setCategory] = useState(0)
+  const { t, i18n } = useTranslation()
 
   return (
     <div>
@@ -22,18 +25,22 @@ export default function ListNews() {
           <div className="language">
             <div
               id="th"
-              style={{ fontWeight: isTH ? "bold" : "normal" }}
-              onClick={() => setIsTH(true)}
+              style={{
+                fontWeight: i18n.language === 'th' ? 'bold' : 'normal',
+              }}
+              onClick={() => i18n.changeLanguage('th')}
             >
-              TH
+              {lngs['th'].nativeName}
             </div>
-            <div style={{ padding: "0 5px" }}> | </div>
+            <div style={{ padding: '0 5px' }}> | </div>
             <div
               id="en"
-              style={{ fontWeight: isTH ? "normal" : "bold" }}
-              onClick={() => setIsTH(false)}
+              style={{
+                fontWeight: i18n.language === 'en' ? 'bold' : 'normal',
+              }}
+              onClick={() => i18n.changeLanguage('en')}
             >
-              EN
+              {lngs['en'].nativeName}
             </div>
           </div>
         </div>
@@ -41,23 +48,23 @@ export default function ListNews() {
           <nav>
             <ol>
               <li>
-                {" "}
-                <Link to="/">หน้าแรก</Link>
+                {' '}
+                <Link to="/">{t('home')}</Link>
               </li>
-              <li style={{ fontWeight: "bold" }}> ข่าวสาร</li>
+              <li style={{ fontWeight: 'bold' }}>{t('news')}</li>
             </ol>
           </nav>
         </div>
         <div className="grid-container">
-          <p className="subject">ชื่อเรื่อง</p>
+          <p className="subject">{t('title')}</p>
           <div></div>
-          <p className="subject">หมวดหมู่</p>
+          <p className="subject">{t('category')}</p>
           <div></div>
           <div></div>
           <input
             value={searchText}
             onChange={(event) => {
-              setSearchText(event.target.value);
+              setSearchText(event.target.value)
             }}
             type="text"
             id="title"
@@ -69,13 +76,13 @@ export default function ListNews() {
             id="categories"
             value={category}
             onChange={(event) => {
-              setCategory(parseInt(event.target.value));
+              setCategory(parseInt(event.target.value))
             }}
           >
-            <option value={0}>ทั้งหมด</option>
+            <option value={0}>{t('all')}</option>
             {categories.map((elem, i) => (
               <option value={elem.id} key={i}>
-                {elem.name.th}
+                {i18n.language === 'en' ? elem.name.en : elem.name.th}
               </option>
             ))}
           </select>
@@ -83,36 +90,36 @@ export default function ListNews() {
           <button
             id="search"
             onClick={() => {
-              let newsList = allNews;
+              let newsList = allNews
               if (searchText || category) {
                 if (searchText) {
                   newsList = newsList.filter((data) => {
-                    let title = data.title.th;
-                    return title.includes(searchText);
-                  });
+                    let title = data.title.th
+                    return title.includes(searchText)
+                  })
                 }
                 if (category) {
                   newsList = newsList.filter((data) => {
-                    return data.category_id === category;
-                  });
+                    return data.category_id === category
+                  })
                 }
               }
-              setNews(newsList);
+              setNews(newsList)
             }}
           >
-            ค้นหา
+            {t('list.search')}
           </button>
         </div>
         <nav id="new-news">
-          <Link to={`/news/create`}>+ สร้างข่าวสาร</Link>
+          <Link to={`/news/create`}>+ {t('list.create')}</Link>
         </nav>
         <table cellSpacing="0">
           <thead>
             <tr>
               <th> </th>
-              <th id="column2">ชื่อเรื่อง</th>
-              <th id="column3">หมวดหมู่</th>
-              <th id="column4">วันที่แก้ไข</th>
+              <th id="column2">{t('title')}</th>
+              <th id="column3">{t('category')}</th>
+              <th id="column4">{t('updatedAt')}</th>
               <th> </th>
             </tr>
           </thead>
@@ -120,16 +127,22 @@ export default function ListNews() {
             {news.map((elem, i) => (
               <tr key={`row${i}`}>
                 <td id="column1">{elem.id}</td>
-                <td>{elem.title.th}</td>
-                <td>{getCategory(elem.category_id).name.th}</td>
+                <td>
+                  {i18n.language === 'en' ? elem.title.en : elem.title.th}
+                </td>
+                <td>
+                  {i18n.language === 'en'
+                    ? getCategory(elem.category_id).name.en
+                    : getCategory(elem.category_id).name.th}
+                </td>
                 <td>{getDateTime(elem.updated_at)}</td>
                 <td id="column5">
                   <nav key={`${i}`}>
                     <Link to={`/news/${elem.id}/edit`}>
-                      <div className="link">แก้ไข</div>
+                      <div className="link">{t('edit')}</div>
                     </Link>
                     <Link to={`/news/${elem.id}`}>
-                      <div className="link">ดูรายละเอียด</div>
+                      <div className="link">{t('list.seeDetails')}</div>
                     </Link>
                   </nav>
                 </td>
@@ -141,8 +154,8 @@ export default function ListNews() {
       </div>
       <div className="clear"></div>
       <div className="footer">
-        <p>© สงวนลิขสิทธิ์ ให้กับพี่เพชร และเบลเท่านั้น</p>
+        <p>© {t('copyright')}</p>
       </div>
     </div>
-  );
+  )
 }

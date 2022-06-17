@@ -1,33 +1,36 @@
-import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
-import { listCategories } from "../category";
-import logo from "../assets/images/icon.png";
-import { createNews } from "../news";
+import { useNavigate, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
+import { listCategories } from '../category'
+import { createNews } from '../news'
+import { languages } from '../i18n'
+import logo from '../assets/images/icon.png'
 
 export default function EditNews() {
-  let categories = listCategories();
-  let navigate = useNavigate();
-  const [inputs, setInputs] = useState({});
-  const [isTH, setIsTH] = useState(true);
+  let categories = listCategories()
+  let navigate = useNavigate()
+  let lngs = languages()
+  const [inputs, setInputs] = useState({})
+  const { t, i18n } = useTranslation()
 
   const handleChange = (event) => {
-    let name = event.target.name;
-    let value = event.target.value;
-    if (name === "thtitle") {
-      name = "title";
-      value = { th: value };
+    let name = event.target.name
+    let value = event.target.value
+    if (name === 'thtitle') {
+      name = 'title'
+      value = { th: value }
     }
 
-    if (name === "entitle") {
-      name = "title";
-      value = { ...inputs[name], en: value };
+    if (name === 'entitle') {
+      name = 'title'
+      value = { ...inputs[name], en: value }
     }
 
-    if (name === "category_id") {
-      value = parseInt(value);
+    if (name === 'category_id') {
+      value = parseInt(value)
     }
-    setInputs((values) => ({ ...values, [name]: value }));
-  };
+    setInputs((values) => ({ ...values, [name]: value }))
+  }
 
   return (
     <div>
@@ -37,18 +40,22 @@ export default function EditNews() {
           <div className="language">
             <div
               id="th"
-              style={{ fontWeight: isTH ? "bold" : "normal" }}
-              onClick={() => setIsTH(true)}
+              style={{
+                fontWeight: i18n.language === 'th' ? 'bold' : 'normal',
+              }}
+              onClick={() => i18n.changeLanguage('th')}
             >
-              TH
+              {lngs['th'].nativeName}
             </div>
-            <div style={{ padding: "0 5px" }}> | </div>
+            <div style={{ padding: '0 5px' }}> | </div>
             <div
               id="en"
-              style={{ fontWeight: isTH ? "normal" : "bold" }}
-              onClick={() => setIsTH(false)}
+              style={{
+                fontWeight: i18n.language === 'en' ? 'bold' : 'normal',
+              }}
+              onClick={() => i18n.changeLanguage('en')}
             >
-              EN
+              {lngs['en'].nativeName}
             </div>
           </div>
         </div>
@@ -56,40 +63,44 @@ export default function EditNews() {
           <nav>
             <ol>
               <li>
-                {" "}
-                <Link to="/">หน้าแรก</Link>
+                {' '}
+                <Link to="/">{t('home')}</Link>
               </li>
               <li>
-                {" "}
-                <Link to="/news">ข่าวสาร</Link>
+                {' '}
+                <Link to="/news">{t('news')}</Link>
               </li>
-              <li style={{ fontWeight: "bold" }}> เพิ่ม</li>
+              <li style={{ fontWeight: 'bold' }}>{t('create.add')}</li>
             </ol>
           </nav>
         </div>
         <div className="grid-create">
           <div className="information">
-            <label htmlFor="thtile">ชื่อเรื่อง (ภาษาไทย)</label>
+            <label htmlFor="thtile">
+              {t('title')} ({t('thai')})
+            </label>
             <textarea id="th-title" name="thtitle" onChange={handleChange} />
-            <label htmlFor="entitle">ชื่อเรื่อง (ภาษาอังกฤษ)</label>
+            <label htmlFor="entitle">
+              {t('title')} ({t('english')})
+            </label>
             <textarea id="en-title" name="entitle" onChange={handleChange} />
-            <label htmlFor="category">หมวดหมู่</label>
+            <label htmlFor="category">{t('category')}</label>
             <select
               name="category_id"
               id="categories"
-              defaultValue={""}
+              defaultValue={''}
               onChange={handleChange}
             >
               <option value="" disabled>
-                ทั้งหมด
+                {t('all')}
               </option>
               {categories.map((elem, i) => (
                 <option value={i + 1} key={i}>
-                  {elem.name.th}
+                  {i18n.language === 'en' ? elem.name.en : elem.name.th}
                 </option>
               ))}
             </select>
-            <label htmlFor="publish_at">วันที่เปิดให้ใช้งาน</label>
+            <label htmlFor="publish_at">{t('publishAt')}</label>
             <input
               type="date"
               id="publish"
@@ -100,19 +111,19 @@ export default function EditNews() {
               <button
                 id="cancel"
                 onClick={() => {
-                  navigate("/news");
+                  navigate('/news')
                 }}
               >
-                ยกเลิก
+                {t('cancel')}
               </button>
               <button
                 id="submit"
                 onClick={() => {
-                  createNews(inputs);
-                  navigate("/news");
+                  createNews(inputs)
+                  navigate('/news')
                 }}
               >
-                บันทึก
+                {t('save')}
               </button>
             </nav>
           </div>
@@ -134,8 +145,8 @@ export default function EditNews() {
       </div>
       <div className="clear"></div>
       <div className="footer">
-        <p>© สงวนลิขสิทธิ์ ให้กับพี่เพชร และเบลเท่านั้น</p>
+        <p>© {t('copyright')}</p>
       </div>
     </div>
-  );
+  )
 }

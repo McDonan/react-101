@@ -1,15 +1,17 @@
-import { Outlet, Link } from "react-router-dom";
-import { useState } from "react";
-import { listNews } from "./news";
-import banner from "./assets/images/banner.png";
-import logo from "./assets/images/icon.png";
-import news from "./assets/images/workplace.png";
-import "./App.css";
-import "./styles.css";
+import { Outlet, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { languages } from './i18n'
+import { listNews } from './news'
+import banner from './assets/images/banner.png'
+import logo from './assets/images/icon.png'
+import news from './assets/images/workplace.png'
+import './App.css'
+import './styles.css'
 
 export default function App() {
-  let newsList = listNews();
-  const [isTH, setIsTH] = useState(true);
+  let newsList = listNews()
+  let lngs = languages()
+  const { t, i18n } = useTranslation()
 
   return (
     <div>
@@ -19,31 +21,35 @@ export default function App() {
           <div className="language">
             <div
               id="th"
-              style={{ fontWeight: isTH ? "bold" : "normal" }}
-              onClick={() => setIsTH(true)}
+              style={{
+                fontWeight: i18n.language === 'th' ? 'bold' : 'normal',
+              }}
+              onClick={() => i18n.changeLanguage('th')}
             >
-              TH
+              {lngs['th'].nativeName}
             </div>
-            <div style={{ padding: "0 5px" }}> | </div>
+            <div style={{ padding: '0 5px' }}> | </div>
             <div
               id="en"
-              style={{ fontWeight: isTH ? "normal" : "bold" }}
-              onClick={() => setIsTH(false)}
+              style={{
+                fontWeight: i18n.language === 'en' ? 'bold' : 'normal',
+              }}
+              onClick={() => i18n.changeLanguage('en')}
             >
-              EN
+              {lngs['en'].nativeName}
             </div>
           </div>
         </div>
         <img className="banner" src={banner} alt="banner"></img>
         <div className="news">
           <p
-            style={{ textAlign: "left", fontWeight: "bold", fontSize: "24px" }}
+            style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '24px' }}
           >
-            ข่าวสาร
+            {t('news')}
           </p>
           <nav>
             <Link to="/news">
-              <span className="view-all">ดูทั้งหมด</span>
+              <span className="view-all">{t('app.viewAll')}</span>
             </Link>
           </nav>
         </div>
@@ -53,7 +59,9 @@ export default function App() {
               <Link to={`/news/${elem.id}`} key={i}>
                 <div className="container">
                   <img id="news1" src={news} alt="news"></img>
-                  <div className="bottom-left">{elem.title.th}</div>
+                  <div className="bottom-left">
+                    {i18n.language === 'en' ? elem.title.en : elem.title.th}
+                  </div>
                 </div>
               </Link>
             ))}
@@ -63,8 +71,8 @@ export default function App() {
       </div>
       <div className="clear"></div>
       <div className="footer">
-        <p>© สงวนลิขสิทธิ์ ให้กับพี่เพชร และเบลเท่านั้น</p>
+        <p>© {t('copyright')}</p>
       </div>
     </div>
-  );
+  )
 }

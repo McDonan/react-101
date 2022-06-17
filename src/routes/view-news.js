@@ -1,14 +1,16 @@
-import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
-import { getCategory } from "../category";
-import { getNews } from "../news";
-import { getDate } from "../utils/date";
-import logo from "../assets/images/icon.png";
+import { useParams, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { getCategory } from '../category'
+import { languages } from '../i18n'
+import { getNews } from '../news'
+import { getDate } from '../utils/date'
+import logo from '../assets/images/icon.png'
 
 export default function ViewNews() {
-  let params = useParams();
-  let news = getNews(parseInt(params.newsId, 10));
-  const [isTH, setIsTH] = useState(true);
+  let params = useParams()
+  let lngs = languages()
+  let news = getNews(parseInt(params.newsId, 10))
+  const { t, i18n } = useTranslation()
 
   if (news) {
     return (
@@ -19,18 +21,22 @@ export default function ViewNews() {
             <div className="language">
               <div
                 id="th"
-                style={{ fontWeight: isTH ? "bold" : "normal" }}
-                onClick={() => setIsTH(true)}
+                style={{
+                  fontWeight: i18n.language === 'th' ? 'bold' : 'normal',
+                }}
+                onClick={() => i18n.changeLanguage('th')}
               >
-                TH
+                {lngs['th'].nativeName}
               </div>
-              <div style={{ padding: "0 5px" }}> | </div>
+              <div style={{ padding: '0 5px' }}> | </div>
               <div
                 id="en"
-                style={{ fontWeight: isTH ? "normal" : "bold" }}
-                onClick={() => setIsTH(false)}
+                style={{
+                  fontWeight: i18n.language === 'en' ? 'bold' : 'normal',
+                }}
+                onClick={() => i18n.changeLanguage('en')}
               >
-                EN
+                {lngs['en'].nativeName}
               </div>
             </div>
           </div>
@@ -38,42 +44,50 @@ export default function ViewNews() {
             <nav>
               <ol>
                 <li>
-                  {" "}
-                  <Link to="/">หน้าแรก</Link>
+                  {' '}
+                  <Link to="/">{t('home')}</Link>
                 </li>
                 <li>
-                  {" "}
-                  <Link to="/news">ข่าวสาร</Link>
+                  {' '}
+                  <Link to="/news">{t('news')}</Link>
                 </li>
-                <li style={{ fontWeight: "bold" }}> รายละเอียด</li>
+                <li style={{ fontWeight: 'bold' }}>{t('view.details')}</li>
               </ol>
             </nav>
           </div>
           <div className="grid-create">
             <div className="information">
-              <label htmlFor="th-tile">ชื่อเรื่อง (ภาษาไทย)</label>
+              <label htmlFor="th-tile">
+                {t('title')} ({t('thai')})
+              </label>
               <textarea
                 id="th-title"
                 name="th-title"
                 value={news.title.th}
                 disabled
               />
-              <label htmlFor="en-title">ชื่อเรื่อง (ภาษาอังกฤษ)</label>
+              <label htmlFor="en-title">
+                {t('title')} ({t('english')})
+              </label>
               <textarea
                 id="en-title"
                 name="en-title"
                 value={news.title.en}
                 disabled
               />
-              <label htmlFor="category">หมวดหมู่</label>
+              <label htmlFor="category">{t('category')}</label>
               <input
                 type="text"
                 name="category"
                 id="category"
-                value={getCategory(news.category_id).name.th}
+                value={
+                  i18n.language === 'en'
+                    ? getCategory(news.category_id).name.en
+                    : getCategory(news.category_id).name.th
+                }
                 disabled
               />
-              <label htmlFor="publish">วันที่เปิดให้ใช้งาน</label>
+              <label htmlFor="publish">{t('publishAt')}</label>
               <input
                 type="date"
                 id="publish"
@@ -87,19 +101,19 @@ export default function ViewNews() {
         </div>
         <div className="clear"></div>
         <div className="footer">
-          <p>© สงวนลิขสิทธิ์ ให้กับพี่เพชร และเบลเท่านั้น</p>
+          <p>© {t('copyright')}</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
     <div>
       <nav>
-        <main style={{ padding: "1rem" }}>
+        <main style={{ padding: '1rem' }}>
           <h2>404 News Not Found</h2>
         </main>
       </nav>
     </div>
-  );
+  )
 }

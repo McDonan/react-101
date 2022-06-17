@@ -9,6 +9,9 @@ import ListNews from "./routes/list-news";
 import ViewNews from "./routes/view-news";
 import reportWebVitals from "./reportWebVitals";
 
+// import i18n (needs to be bundled ;))
+import "./i18n";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
