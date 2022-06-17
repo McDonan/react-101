@@ -51,6 +51,10 @@
   content: ">";
 }
 
+button {
+  cursor: pointer;
+}
+
 .buttons {
   display: flex;
   padding-top: 78px;
@@ -109,6 +113,11 @@
 .header {
   font-size: 24px;
   height: 80px;
+}
+
+#en,
+#th {
+  cursor: pointer;
 }
 
 .footer {
