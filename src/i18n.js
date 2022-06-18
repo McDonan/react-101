@@ -30,11 +30,11 @@ i18n
 
 export default i18n
 
-const lngs = {
+const langs = {
   en: { nativeName: 'EN' },
   th: { nativeName: 'TH' },
 }
 
 export function languages() {
-  return lngs
+  return langs
 }
