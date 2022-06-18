@@ -1,17 +1,17 @@
 import { useTranslation } from 'react-i18next'
 import { Outlet, Link } from 'react-router-dom'
 import { getCategory, listCategories } from '../category'
-import { languages } from '../i18n'
 import { listNews } from '../news'
 import { useState } from 'react'
 import { getDateTime } from '../utils/date'
-import logo from '../assets/images/icon.png'
+import Breadcrumb from '../components/breadcrumb'
+import Footer from '../components/footer'
+import Header from '../components/header'
 import '../styles.css'
 
 export default function ListNews() {
   let categories = listCategories()
   let allNews = listNews()
-  let lngs = languages()
   const [news, setNews] = useState(allNews)
   const [searchText, setSearchText] = useState('')
   const [category, setCategory] = useState(0)
@@ -20,41 +20,8 @@ export default function ListNews() {
   return (
     <div>
       <div className="body">
-        <div className="header">
-          <img className="logo" src={logo} alt="logo"></img>
-          <div className="language">
-            <div
-              id="th"
-              style={{
-                fontWeight: i18n.language === 'th' ? 'bold' : 'normal',
-              }}
-              onClick={() => i18n.changeLanguage('th')}
-            >
-              {lngs['th'].nativeName}
-            </div>
-            <div style={{ padding: '0 5px' }}> | </div>
-            <div
-              id="en"
-              style={{
-                fontWeight: i18n.language === 'en' ? 'bold' : 'normal',
-              }}
-              onClick={() => i18n.changeLanguage('en')}
-            >
-              {lngs['en'].nativeName}
-            </div>
-          </div>
-        </div>
-        <div className="breadcrumb">
-          <nav>
-            <ol>
-              <li>
-                {' '}
-                <Link to="/">{t('home')}</Link>
-              </li>
-              <li style={{ fontWeight: 'bold' }}>{t('news')}</li>
-            </ol>
-          </nav>
-        </div>
+        <Header />
+        <Breadcrumb isList={true} />
         <div className="grid-container">
           <p className="subject">{t('title')}</p>
           <div></div>
@@ -152,10 +119,7 @@ export default function ListNews() {
           <Outlet />
         </table>
       </div>
-      <div className="clear"></div>
-      <div className="footer">
-        <p>© {t('copyright')}</p>
-      </div>
+      <Footer />
     </div>
   )
 }

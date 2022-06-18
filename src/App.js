@@ -1,45 +1,21 @@
 import { Outlet, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { languages } from './i18n'
 import { listNews } from './news'
 import banner from './assets/images/banner.png'
-import logo from './assets/images/icon.png'
 import news from './assets/images/workplace.png'
+import Footer from './components/footer'
+import Header from './components/header'
 import './App.css'
 import './styles.css'
 
 export default function App() {
   let newsList = listNews()
-  let lngs = languages()
   const { t, i18n } = useTranslation()
 
   return (
     <div>
       <div className="body">
-        <div className="header">
-          <img className="logo" src={logo} alt="logo"></img>
-          <div className="language">
-            <div
-              id="th"
-              style={{
-                fontWeight: i18n.language === 'th' ? 'bold' : 'normal',
-              }}
-              onClick={() => i18n.changeLanguage('th')}
-            >
-              {lngs['th'].nativeName}
-            </div>
-            <div style={{ padding: '0 5px' }}> | </div>
-            <div
-              id="en"
-              style={{
-                fontWeight: i18n.language === 'en' ? 'bold' : 'normal',
-              }}
-              onClick={() => i18n.changeLanguage('en')}
-            >
-              {lngs['en'].nativeName}
-            </div>
-          </div>
-        </div>
+        <Header />
         <img className="banner" src={banner} alt="banner"></img>
         <div className="news">
           <p
@@ -69,10 +45,7 @@ export default function App() {
         </div>
         <Outlet />
       </div>
-      <div className="clear"></div>
-      <div className="footer">
-        <p>© {t('copyright')}</p>
-      </div>
+      <Footer />
     </div>
   )
 }
