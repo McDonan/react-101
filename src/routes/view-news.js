@@ -1,10 +1,10 @@
-import { useParams } from 'react-router-dom'
-import { getNews } from '../news'
 import Breadcrumb from '../components/breadcrumb'
 import Footer from '../components/footer'
 import Header from '../components/header'
 import News from '../components/news'
 import NotFound from '../components/not-found'
+import { getNews } from '../news'
+import { useParams } from 'react-router-dom'
 
 export default function ViewNews() {
   let params = useParams()
@@ -15,8 +15,8 @@ export default function ViewNews() {
       <div>
         <div className="body">
           <Header />
-          <Breadcrumb isView={true} />
-          <News />
+          <Breadcrumb isView />
+          <News isView />
         </div>
         <Footer />
       </div>

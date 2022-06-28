@@ -1,30 +1,42 @@
-import { useTranslation } from 'react-i18next'
+import { Breadcrumbs, Typography } from '@mui/material'
+
 import { Link } from 'react-router-dom'
+import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 const Breadcrumb = ({ isList, isView, isCreate }) => {
   const { t } = useTranslation()
-
   let last = isView ? 'view.details' : isCreate ? 'create.add' : 'edit'
+  let breadcrumbs = [
+    <Link key="1" color="inherit" to="/">
+      {t('home')}
+    </Link>,
+  ]
+
+  if (isList) {
+    breadcrumbs.push(
+      <Typography key="2" color="text.primary">
+        {t('news')}
+      </Typography>
+    )
+  } else {
+    breadcrumbs.push(
+      <Link key="2" color="inherit" to="/news">
+        {t('news')}
+      </Link>
+    )
+    breadcrumbs.push(
+      <Typography key="3" color="text.primary">
+        {t(last)}
+      </Typography>
+    )
+  }
 
   return (
-    <div className="breadcrumb">
-      <nav>
-        <ol>
-          <li>
-            {' '}
-            <Link to="/">{t('home')}</Link>
-          </li>
-          <li>
-            {' '}
-            <Link to="/news" style={isList && { fontWeight: 'bold' }}>
-              {t('news')}
-            </Link>
-          </li>
-          {!isList && <li style={{ fontWeight: 'bold' }}>{t(last)}</li>}
-        </ol>
-      </nav>
-    </div>
+    <Breadcrumbs separator={<NavigateNextIcon />} className="breadcrumb">
+      {breadcrumbs}
+    </Breadcrumbs>
   )
 }
 

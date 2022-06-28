@@ -8,8 +8,8 @@ export default function EditNews() {
     <div>
       <div className="body">
         <Header />
-        <Breadcrumb isCreate={true} />
-        <News isCreate={true} />
+        <Breadcrumb isCreate />
+        <News isCreate />
       </div>
       <Footer />
     </div>

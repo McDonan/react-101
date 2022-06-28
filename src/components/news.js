@@ -1,9 +1,13 @@
-import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Button, InputLabel, MenuItem, TextField } from '@mui/material'
 import { React, useState } from 'react'
 import { createNews, editNews, getNews } from '../news'
+import { useNavigate, useParams } from 'react-router-dom'
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { DateTimePicker } from '@mui/x-date-pickers'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { listCategories } from '../category'
-import { getDate } from '../utils/date'
+import { useTranslation } from 'react-i18next'
 
 const News = ({ isEdit, isCreate }) => {
   let categories = listCategories()
@@ -12,11 +16,10 @@ const News = ({ isEdit, isCreate }) => {
   let news = getNews(parseInt(params?.newsId, 10))
 
   const { t, i18n } = useTranslation()
-  const [enTitle, setENTitle] = useState(news?.title.en)
-  const [thTitle, setTHTitle] = useState(news?.title.th)
-  const [categoryID, setCategoryID] = useState(news?.category_id)
-  const [publishAt, setPublishAt] = useState(news?.publish_at)
-  const [newInputs, setNewInputs] = useState({})
+  const [enTitle, setENTitle] = useState(news?.title.en || '')
+  const [thTitle, setTHTitle] = useState(news?.title.th || '')
+  const [categoryID, setCategoryID] = useState(news?.category_id || 0)
+  const [publishAt, setPublishAt] = useState(news?.publish_at || new Date())
 
   let inputs = {
     id: news?.id,
@@ -31,98 +34,79 @@ const News = ({ isEdit, isCreate }) => {
     publish_at: publishAt,
   }
 
-  const handleChange = (event) => {
-    let name = event.target.name
-    let value = event.target.value
-    if (name === 'th-title') {
-      name = 'title'
-      value = { th: value }
-    }
-
-    if (name === 'en-title') {
-      name = 'title'
-      value = { ...newInputs[name], en: value }
-    }
-
-    if (name === 'category_id') {
-      value = parseInt(value)
-    }
-    setNewInputs((values) => ({ ...values, [name]: value }))
-  }
-
   return (
     <div className="grid">
       <div className="information">
-        <label htmlFor="th-title">
+        <InputLabel id="th-title-label">
           {t('title')} ({t('thai')})
-        </label>
-        <textarea
+        </InputLabel>
+        <TextField
           id="th-title"
-          name="th-title"
+          margin="dense"
+          multiline
+          rows={6}
           value={thTitle}
           disabled={!isEdit && !isCreate}
-          onChange={(e) =>
-            isCreate ? handleChange : setTHTitle(e.target.value)
-          }
+          onChange={(e) => setTHTitle(e.target.value)}
         />
-        <label htmlFor="entitle">
+        <InputLabel id="en-title-label">
           {t('title')} ({t('english')})
-        </label>
-        <textarea
+        </InputLabel>
+        <TextField
           id="en-title"
-          name="entitle"
+          margin="dense"
+          multiline
+          rows={6}
           value={enTitle}
           disabled={!isEdit && !isCreate}
-          onChange={(e) =>
-            isCreate ? handleChange : setENTitle(e.target.value)
-          }
+          onChange={(e) => setENTitle(e.target.value)}
         />
-        <label htmlFor="category_id">{t('category')}</label>
-        <select
-          name="category_id"
+        <InputLabel id="category-label">{t('category')}</InputLabel>
+        <TextField
           id="category"
-          value={categoryID}
+          select
+          margin="dense"
           disabled={!isEdit && !isCreate}
-          onChange={(e) =>
-            isCreate ? handleChange : setCategoryID(parseInt(e.target.value))
-          }
+          value={categoryID}
+          onChange={(e) => setCategoryID(parseInt(e.target.value))}
         >
           {categories.map((elem, i) => (
-            <option value={elem.id} key={i}>
+            <MenuItem value={elem.id} key={i + 1}>
               {i18n.language === 'en' ? elem.name.en : elem.name.th}
-            </option>
+            </MenuItem>
           ))}
-        </select>
-        <label htmlFor="publish_at">{t('publishAt')}</label>
-        <input
-          type="date"
-          id="publish"
-          name="publish_at"
-          value={getDate(publishAt)}
-          disabled={!isEdit && !isCreate}
-          onChange={(e) =>
-            isCreate ? handleChange : setPublishAt(e.target.value)
-          }
-        />
+        </TextField>
+        <InputLabel id="publish-label">{t('publishAt')}</InputLabel>
+        <LocalizationProvider dateAdapter={AdapterDateFns} id="publish">
+          <DateTimePicker
+            inputFormat="dd/MM/yyyy HH:mm"
+            value={publishAt}
+            disabled={!isEdit && !isCreate}
+            onChange={(date) => setPublishAt(date)}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
         {(isEdit || isCreate) && (
           <nav className="buttons">
-            <button
+            <Button
+              variant="outlined"
               id="cancel"
               onClick={() => {
                 navigate('/news')
               }}
             >
               {t('cancel')}
-            </button>
-            <input
-              type={'submit'}
+            </Button>
+            <Button
+              variant="contained"
               id="submit"
-              value={t('save')}
               onClick={() => {
-                isCreate ? createNews(newInputs) : editNews(news.id, inputs)
+                isCreate ? createNews(inputs) : editNews(news?.id, inputs)
                 navigate('/news')
               }}
-            />
+            >
+              {t('save')}
+            </Button>
           </nav>
         )}
       </div>
@@ -137,7 +121,7 @@ const News = ({ isEdit, isCreate }) => {
             name="image"
             accept="image/png, image/jpeg"
           />
-          <label htmlFor="avatar">+</label>
+          <InputLabel id="avatar">+</InputLabel>
         </div>
       ) : (
         <img id="image" alt="news" src={news?.image} />

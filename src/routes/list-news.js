@@ -1,13 +1,18 @@
-import { useTranslation } from 'react-i18next'
-import { Outlet, Link } from 'react-router-dom'
+import '../styles.css'
+
+import { Button, Fab, Grid, TextField } from '@mui/material'
+import { InputLabel, MenuItem } from '@mui/material'
+import { Link, Outlet } from 'react-router-dom'
 import { getCategory, listCategories } from '../category'
-import { listNews } from '../news'
-import { useState } from 'react'
-import { getDateTime } from '../utils/date'
+
+import AddIcon from '@mui/icons-material/Add'
 import Breadcrumb from '../components/breadcrumb'
 import Footer from '../components/footer'
 import Header from '../components/header'
-import '../styles.css'
+import { getDateTime } from '../utils/date'
+import { listNews } from '../news'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function ListNews() {
   let categories = listCategories()
@@ -21,64 +26,84 @@ export default function ListNews() {
     <div>
       <div className="body">
         <Header />
-        <Breadcrumb isList={true} />
-        <div className="grid-container">
-          <p className="subject">{t('title')}</p>
-          <div></div>
-          <p className="subject">{t('category')}</p>
-          <div></div>
-          <div></div>
-          <input
-            value={searchText}
-            onChange={(event) => {
-              setSearchText(event.target.value)
-            }}
-            type="text"
-            id="title"
-            name="title"
-          />
-          <div></div>
-          <select
-            name="categories"
-            id="categories"
-            value={category}
-            onChange={(event) => {
-              setCategory(parseInt(event.target.value))
-            }}
-          >
-            <option value={0}>{t('all')}</option>
-            {categories.map((elem, i) => (
-              <option value={elem.id} key={i}>
-                {i18n.language === 'en' ? elem.name.en : elem.name.th}
-              </option>
-            ))}
-          </select>
-          <div></div>
-          <button
-            id="search"
-            onClick={() => {
-              let newsList = allNews
-              if (searchText || category) {
-                if (searchText) {
-                  newsList = newsList.filter((data) => {
-                    let title = data.title.th
-                    return title.includes(searchText)
-                  })
+        <Breadcrumb isList />
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid item xs={3}>
+            <InputLabel id="title-label">{t('title')}</InputLabel>
+          </Grid>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={3}>
+            <InputLabel id="category-label">{t('category')}</InputLabel>
+          </Grid>
+          <Grid item xs={5}></Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="title"
+              style={{ width: '100%' }}
+              margin="dense"
+              type="search"
+              variant="outlined"
+              value={searchText}
+              onChange={(event) => {
+                setSearchText(event.target.value)
+              }}
+            />
+          </Grid>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="categories"
+              style={{ width: '100%' }}
+              select
+              margin="dense"
+              value={category}
+              onChange={(event) => {
+                setCategory(parseInt(event.target.value))
+              }}
+            >
+              <MenuItem value={0}>{t('all')}</MenuItem>
+              {categories.map((elem, i) => (
+                <MenuItem value={elem.id} key={i}>
+                  {i18n.language === 'en' ? elem.name.en : elem.name.th}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={2}>
+            <Button
+              variant="contained"
+              id="search"
+              onClick={() => {
+                let newsList = allNews
+                if (searchText || category) {
+                  if (searchText) {
+                    newsList = newsList.filter((data) => {
+                      let title = data.title.th
+                      return title.includes(searchText)
+                    })
+                  }
+                  if (category) {
+                    newsList = newsList.filter((data) => {
+                      return data.category_id === category
+                    })
+                  }
                 }
-                if (category) {
-                  newsList = newsList.filter((data) => {
-                    return data.category_id === category
-                  })
-                }
-              }
-              setNews(newsList)
-            }}
-          >
-            {t('list.search')}
-          </button>
-        </div>
+                setNews(newsList)
+              }}
+            >
+              {' '}
+              {t('list.search')}
+            </Button>
+          </Grid>
+        </Grid>
         <nav id="new-news">
-          <Link to={`/news/create`}>+ {t('list.create')}</Link>
+          <Link to={`/news/create`}>
+            <Fab size="small" aria-label="add">
+              <AddIcon />
+            </Fab>{' '}
+            {t('list.create')}
+          </Link>
         </nav>
         <table cellSpacing="0">
           <thead>
