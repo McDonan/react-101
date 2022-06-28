@@ -4,7 +4,7 @@ import logo from '../assets/images/icon.png'
 import { useTranslation } from 'react-i18next'
 
 const Header = () => {
-  let langs = languages()
+  const langs = languages()
   const { i18n } = useTranslation()
 
   return (

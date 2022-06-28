@@ -7,8 +7,8 @@ import { getNews } from '../news'
 import { useParams } from 'react-router-dom'
 
 export default function ViewNews() {
-  let params = useParams()
-  let news = getNews(parseInt(params.newsId, 10))
+  const params = useParams()
+  const news = getNews(parseInt(params.newsId, 10))
 
   if (news) {
     return (

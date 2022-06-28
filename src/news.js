@@ -66,7 +66,7 @@ export function listNews() {
 }
 
 export function createNews(data) {
-  let now = new Date()
+  const now = new Date()
   data['created_at'] = now
   data['updated_at'] = now
   data['publish_at'] = new Date(data.publish_at)
@@ -79,5 +79,7 @@ export function getNews(id) {
 }
 
 export function editNews(id, data) {
+  const now = new Date()
+  data['updated_at'] = now
   news[id - 1] = data
 }

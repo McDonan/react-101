@@ -10,13 +10,14 @@ import Breadcrumb from '../components/breadcrumb'
 import Footer from '../components/footer'
 import Header from '../components/header'
 import { getDateTime } from '../utils/date'
+import { getValueByLanguage } from '../i18n'
 import { listNews } from '../news'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function ListNews() {
-  let categories = listCategories()
-  let allNews = listNews()
+  const categories = listCategories()
+  const allNews = listNews()
   const [news, setNews] = useState(allNews)
   const [searchText, setSearchText] = useState('')
   const [category, setCategory] = useState(0)
@@ -63,8 +64,8 @@ export default function ListNews() {
             >
               <MenuItem value={0}>{t('all')}</MenuItem>
               {categories.map((elem, i) => (
-                <MenuItem value={elem.id} key={i}>
-                  {i18n.language === 'en' ? elem.name.en : elem.name.th}
+                <MenuItem value={elem.id} key={elem.id}>
+                  {getValueByLanguage(i18n.language, elem.name)}
                 </MenuItem>
               ))}
             </TextField>
@@ -79,7 +80,7 @@ export default function ListNews() {
                 if (searchText || category) {
                   if (searchText) {
                     newsList = newsList.filter((data) => {
-                      let title = data.title.th
+                      const title = data.title.th
                       return title.includes(searchText)
                     })
                   }
@@ -117,19 +118,18 @@ export default function ListNews() {
           </thead>
           <tbody>
             {news.map((elem, i) => (
-              <tr key={`row${i}`}>
+              <tr key={elem.id}>
                 <td id="column1">{elem.id}</td>
+                <td>{getValueByLanguage(i18n.language, elem.title)}</td>
                 <td>
-                  {i18n.language === 'en' ? elem.title.en : elem.title.th}
-                </td>
-                <td>
-                  {i18n.language === 'en'
-                    ? getCategory(elem.category_id).name.en
-                    : getCategory(elem.category_id).name.th}
+                  {getValueByLanguage(
+                    i18n.language,
+                    getCategory(elem.category_id).name
+                  )}
                 </td>
                 <td>{getDateTime(elem.updated_at)}</td>
                 <td id="column5">
-                  <nav key={`${i}`}>
+                  <nav key={elem.id}>
                     <Link to={`/news/${elem.id}/edit`}>
                       <div className="link">{t('edit')}</div>
                     </Link>

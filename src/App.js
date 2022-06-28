@@ -1,53 +1,27 @@
-import './App.css'
 import './styles.css'
 
-import { Link, Outlet } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import Footer from './components/footer'
-import Header from './components/header'
-import banner from './assets/images/banner.png'
-import { listNews } from './news'
-import news from './assets/images/workplace.png'
-import { useTranslation } from 'react-i18next'
+import CreateNews from './routes/create-news'
+import EditNews from './routes/edit-news'
+import Landing from './routes/landing'
+import ListNews from './routes/list-news'
+import NotFound from './components/not-found'
+import ViewNews from './routes/view-news'
 
 export default function App() {
-  let newsList = listNews()
-  const { t, i18n } = useTranslation()
-
   return (
     <div>
-      <div className="body">
-        <Header />
-        <img className="banner" src={banner} alt="banner"></img>
-        <div className="news">
-          <p
-            style={{ textAlign: 'left', fontWeight: 'bold', fontSize: '24px' }}
-          >
-            {t('news')}
-          </p>
-          <nav>
-            <Link to="/news">
-              <span className="view-all">{t('app.viewAll')}</span>
-            </Link>
-          </nav>
-        </div>
-        <div id="news">
-          <nav>
-            {newsList.slice(0, 4).map((elem, i) => (
-              <Link to={`/news/${elem.id}`} key={i}>
-                <div className="container">
-                  <img id="news1" src={news} alt="news"></img>
-                  <div className="bottom-left">
-                    {i18n.language === 'en' ? elem.title.en : elem.title.th}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </nav>
-        </div>
-        <Outlet />
-      </div>
-      <Footer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />}></Route>
+          <Route path="news" element={<ListNews />}></Route>
+          <Route path="news/create" element={<CreateNews />}></Route>
+          <Route path="news/:newsId" element={<ViewNews />}></Route>
+          <Route path="news/:newsId/edit" element={<EditNews />}></Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }

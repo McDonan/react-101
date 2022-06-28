@@ -1,19 +1,19 @@
 import { Button, InputLabel, MenuItem, TextField } from '@mui/material'
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { React, useState } from 'react'
 import { createNews, editNews, getNews } from '../news'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { DateTimePicker } from '@mui/x-date-pickers'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { getValueByLanguage } from '../i18n'
 import { listCategories } from '../category'
 import { useTranslation } from 'react-i18next'
 
 const News = ({ isEdit, isCreate }) => {
-  let categories = listCategories()
-  let navigate = useNavigate()
-  let params = useParams()
-  let news = getNews(parseInt(params?.newsId, 10))
+  const categories = listCategories()
+  const navigate = useNavigate()
+  const params = useParams()
+  const news = getNews(parseInt(params?.newsId, 10))
 
   const { t, i18n } = useTranslation()
   const [enTitle, setENTitle] = useState(news?.title.en || '')
@@ -71,8 +71,8 @@ const News = ({ isEdit, isCreate }) => {
           onChange={(e) => setCategoryID(parseInt(e.target.value))}
         >
           {categories.map((elem, i) => (
-            <MenuItem value={elem.id} key={i + 1}>
-              {i18n.language === 'en' ? elem.name.en : elem.name.th}
+            <MenuItem value={elem.id} key={elem.id}>
+              {getValueByLanguage(i18n.language, elem.name)}
             </MenuItem>
           ))}
         </TextField>

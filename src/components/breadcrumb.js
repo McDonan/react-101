@@ -1,8 +1,7 @@
-import { Breadcrumbs, Typography } from '@mui/material'
-
-import { Link } from 'react-router-dom'
-import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import React from 'react'
+import NavigateNextIcon from '@mui/icons-material/NavigateNext'
+import { Breadcrumbs, Typography } from '@mui/material'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 const Breadcrumb = ({ isList, isView, isCreate }) => {

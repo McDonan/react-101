@@ -1,8 +1,7 @@
 import LanguageDetector from 'i18next-browser-languagedetector'
-import en from './lang/en.json'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import th from './lang/th.json'
+import translate from './translate'
 
 i18n
   // detect user language
@@ -20,10 +19,10 @@ i18n
     },
     resources: {
       en: {
-        translation: en,
+        translation: translate.en,
       },
       th: {
-        translation: th,
+        translation: translate.th,
       },
     },
   })
@@ -37,4 +36,8 @@ const langs = {
 
 export function languages() {
   return langs
+}
+
+export function getValueByLanguage(lang, obj) {
+  return lang === 'en' ? obj.en : obj.th
 }
