@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next'
-import { languages } from '../i18n'
 import React from 'react'
+import { languages } from '../i18n'
 import logo from '../assets/images/icon.png'
+import { useTranslation } from 'react-i18next'
 
 const Header = () => {
   let langs = languages()

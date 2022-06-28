@@ -1,12 +1,14 @@
-import { Outlet, Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { listNews } from './news'
-import banner from './assets/images/banner.png'
-import news from './assets/images/workplace.png'
-import Footer from './components/footer'
-import Header from './components/header'
 import './App.css'
 import './styles.css'
+
+import { Link, Outlet } from 'react-router-dom'
+
+import Footer from './components/footer'
+import Header from './components/header'
+import banner from './assets/images/banner.png'
+import { listNews } from './news'
+import news from './assets/images/workplace.png'
+import { useTranslation } from 'react-i18next'
 
 export default function App() {
   let newsList = listNews()

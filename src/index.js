@@ -1,17 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
+import './i18n'
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
 import App from './App'
 import CreateNews from './routes/create-news'
 import EditNews from './routes/edit-news'
 import ListNews from './routes/list-news'
+import NotFound from './components/not-found'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import ViewNews from './routes/view-news'
 import reportWebVitals from './reportWebVitals'
-
-// import i18n (needs to be bundled ;))
-import './i18n'
-import NotFound from './components/not-found'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
